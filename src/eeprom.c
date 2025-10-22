@@ -1,11 +1,15 @@
 #include "eeprom.h"
 
-void eeprom_init()
+#define EEPROM_ADDR 0x51 // 7-bit device address (A2..A0 = 100)
+#define TEST_ADDR 0x00   // Memory location to test
+#define TEST_VALUE 0x31  // Value to write/read
+
+void eeprom_init(eeprom_t *e)
 {
     //
 }
 
-void epprom_deinit()
+void epprom_deinit(eeprom_t *e)
 {
     //
 }
@@ -23,8 +27,10 @@ void wait_for_write(i2c_regs_t *r)
 }
     */
 
-void eeprom_write_byte(i2c_regs_t *r, uint8_t memAddr, uint8_t data)
+void eeprom_write_byte(eeprom_t *e, uint8_t memAddr, uint8_t data)
 {
+    i2c_regs_t *r = e->i2c;
+
     start(r);
     write(r, (EEPROM_ADDR << 1) | 0); // Write mode
     write(r, memAddr);
@@ -35,9 +41,10 @@ void eeprom_write_byte(i2c_regs_t *r, uint8_t memAddr, uint8_t data)
     __delay_ms(10);
 }
 
-uint8_t eeprom_read_byte(i2c_regs_t *r, uint8_t memAddr)
+uint8_t eeprom_read_byte(eeprom_t *e, uint8_t memAddr)
 {
     uint8_t data;
+    i2c_regs_t *r = e->i2c;
 
     start(r);
     write(r, (EEPROM_ADDR << 1) | 0); // Write mode

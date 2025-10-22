@@ -2,10 +2,6 @@
 
 #define _I2C2 // This mcu has an i2c2
 
-#define EEPROM_ADDR 0x51 // 7-bit device address (A2..A0 = 100)
-#define TEST_ADDR 0x00   // Memory location to test
-#define TEST_VALUE 0x31  // Value to write/read
-
 typedef struct
 {
     i2c_xfer_t *xfer;           // pointer to the transfer
