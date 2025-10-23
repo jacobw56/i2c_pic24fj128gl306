@@ -27,7 +27,6 @@ typedef enum
 typedef struct
 {
     bool init;
-    i2c_regs_t *i2c;
 } eeprom_t;
 
 void eeprom_init(eeprom_t *e);
