@@ -1,106 +1,151 @@
 #include "i2c.h"
+#include <xc.h>
 
-#define _I2C2 // This mcu has an i2c2
+// Timeout helper
+#define I2C_TIMEOUT 50000UL
 
-typedef struct
+static inline bool wait_clear(volatile uint16_t *reg, uint16_t mask)
 {
-    i2c_xfer_t *xfer;           // pointer to the transfer
-    i2c_message_status_t *flag; // set with the error of the last trb sent.
-                                // if all trb's are sent successfully,
-                                // then this is I2C1_MESSAGE_COMPLETE
-} i2c_queue_entry_t;
+    uint32_t t = I2C_TIMEOUT;
+    while ((*reg & mask) && --t)
+        ;
+    return t != 0;
+}
 
-typedef struct
+static inline bool wait_set(volatile uint16_t *reg, uint16_t mask)
 {
-    /* Read/Write Queue */
-    i2c_queue_entry_t *tail;     // tail of the queue
-    i2c_queue_entry_t *head;     // head of the queue
-    i2c_message_status_t status; // status of the last transaction
-    uint8_t done_flag;           // flag to indicate the current
-                                 // transaction is done
-    uint8_t error_count;         // keeps track of errors
-} queue_t;
+    uint32_t t = I2C_TIMEOUT;
+    while (((*reg & mask) == 0) && --t)
+        ;
+    return t != 0;
+}
 
-static const i2c_regs_t i2c_instances[] = {
-    {&I2C1CONL, &I2C1CONH, &I2C1STAT, &I2C1ADD, &I2C1MSK, &I2C1BRG, &I2C1TRN, &I2C1RCV},
+// Static table of register maps
+static const i2c_regs_t I2C_REGMAPS[] = {
+    {&I2C1CONL, &I2C1STAT, &I2C1BRG, &I2C1TRN, &I2C1RCV},
 #ifdef _I2C2
-    {&I2C2CONL, &I2C2CONH, &I2C2STAT, &I2C2ADD, &I2C2MSK, &I2C2BRG, &I2C2TRN, &I2C2RCV},
+    {&I2C2CONL, &I2C2STAT, &I2C2BRG, &I2C2TRN, &I2C2RCV},
 #endif
 };
 
-static inline void enable(const i2c_regs_t *r, int enable)
+// ------------------------------------------------------------
+// Initialization / Deinit
+// ------------------------------------------------------------
+
+void i2c_init(i2c_t *bus, i2c_idx_t idx, uint32_t fcy, uint32_t fscl)
 {
-    if (enable)
+    const i2c_regs_t *r = &I2C_REGMAPS[idx];
+    bus->index = idx;
+    bus->regs = r;
+    bus->initialized = true;
+
+    // Configure TRIS (SCL1=RG2, SDA1=RG3)
+    if (idx == I2C_IDX1)
     {
-        *r->CONL |= (1u << 15); // I2CEN bit in CONL (bit 15 on PIC24)
+        TRISGbits.TRISG2 = 1;
+        TRISGbits.TRISG3 = 1;
+    }
+
+    *r->CONL = 0;
+    *r->BRG = (uint16_t)(((fcy / fscl) / 2) - 2);
+    *r->CONL |= (1u << 15); // I2CEN
+
+    __delay_ms(10); // Hitting ack wasn't returning -- REVISIT!
+}
+
+void i2c_deinit(i2c_t *bus)
+{
+    if (!bus || !bus->initialized)
+    {
+        return;
+    }
+    *bus->regs->CONL &= ~(1u << 15);
+    bus->initialized = false;
+}
+
+// ------------------------------------------------------------
+// Core primitives
+// ------------------------------------------------------------
+
+i2c_result_t i2c_start(const i2c_t *bus)
+{
+    const i2c_regs_t *r = bus->regs;
+    *r->CONL |= (1u << 0); // SEN
+    if (!wait_clear(r->CONL, (1u << 0)))
+    {
+        return I2C_ERR_TIMEOUT;
+    }
+    return I2C_OK;
+}
+
+i2c_result_t i2c_restart(const i2c_t *bus)
+{
+    const i2c_regs_t *r = bus->regs;
+    *r->CONL |= (1u << 1); // RSEN
+    if (!wait_clear(r->CONL, (1u << 1)))
+    {
+        return I2C_ERR_TIMEOUT;
+    }
+    return I2C_OK;
+}
+
+i2c_result_t i2c_stop(const i2c_t *bus)
+{
+    const i2c_regs_t *r = bus->regs;
+    *r->CONL |= (1u << 2); // PEN
+    if (!wait_clear(r->CONL, (1u << 2)))
+    {
+        return I2C_ERR_TIMEOUT;
+    }
+    return I2C_OK;
+}
+
+i2c_result_t i2c_write_byte(const i2c_t *bus, uint8_t data)
+{
+    const i2c_regs_t *r = bus->regs;
+    *r->TRN = data;
+
+    if (!wait_clear(r->STAT, (1u << 0)))
+    {
+        return I2C_ERR_TIMEOUT; // wait TBF=0
+    }
+    if (!wait_clear(r->STAT, (1u << 14)))
+    {
+        return I2C_ERR_TIMEOUT; // wait TRSTAT=0
+    }
+    if (*r->STAT & (1u << 15))
+    {
+        return I2C_ERR_NACK; // ACKSTAT=1 → NACK
+    }
+
+    return I2C_OK;
+}
+
+i2c_result_t i2c_read_byte(const i2c_t *bus, uint8_t *data, bool ack)
+{
+    const i2c_regs_t *r = bus->regs;
+
+    *r->CONL |= (1u << 3); // RCEN
+    if (!wait_set(r->STAT, (1u << 1)))
+    {
+        return I2C_ERR_TIMEOUT; // RBF
+    }
+    *data = *r->RCV;
+
+    // ACK/NACK
+    if (ack)
+    {
+        *r->CONL &= ~(1u << 5); // ACKDT=0 → ACK
     }
     else
     {
-        *r->CONL &= ~(1u << 15);
+        *r->CONL |= (1u << 5); // ACKDT=1 → NACK
     }
-}
-
-static inline void set_brg(const i2c_regs_t *r, uint16_t brg)
-{
-    *r->BRG = brg;
-}
-
-static inline void receive_enable(const i2c_regs_t *r, int enable)
-{
-    *r->CONL |= (1u << 3); // PEN
-    while (*r->CONL & (1u << 3))
-        ;
-}
-
-static inline bool receive_buffer_is_full(const i2c_regs_t *r)
-{
-    return (bool)(*r->STAT & (1u << 1)); // RBF
-}
-
-static inline void ack_set(const i2c_regs_t *r, uint8_t ak)
-{
-    *r->CONL |= (ak << 5); // 0=ACK, 1=NACK
-    while ((*r->CONL & (1u << 5)) != ak)
-        ;
-}
-
-static inline void ack(const i2c_regs_t *r)
-{
     *r->CONL |= (1u << 4); // ACKEN
-    while (*r->CONL & (1u << 4))
-        ;
-}
+    if (!wait_clear(r->CONL, (1u << 4)))
+    {
+        return I2C_ERR_TIMEOUT;
+    }
 
-static inline bool ack_stat(const i2c_regs_t *r)
-{
-    return (bool)(*r->STAT & (1 << 15));
-}
-
-void i2c_init(i2c_idx_t idx, i2c_regs_t *r)
-{
-    r = &i2c_instances[idx];
-
-    // Ensure TRIS configured as inputs (I2C module will drive them)
-    // Ehhhhhh, probably no great way to decouple this other than to move it to system init.
-    TRISGbits.TRISG2 = 1; // SCL1
-    TRISGbits.TRISG3 = 1; // SDA1
-
-    *r->CONL = 0;     // Clear config
-    set_brg(r, 0x12); // set speed mode
-    enable(r, 1);     // Enable I2C module
-    __delay_ms(10);
-}
-
-static inline uint8_t i2c_read(const i2c_regs_t *r, uint8_t ak)
-{
-    uint8_t data;
-    receive_enable(r, 1);
-    while (!receive_buffer_is_full(r))
-        ; // Wait for receive buffer to fill up
-
-    data = *r->RCV; // get the actual data
-
-    ack_set(r, ak); // 0=ACK, 1=NACK
-    ack(r);
-    return data;
+    return I2C_OK;
 }
