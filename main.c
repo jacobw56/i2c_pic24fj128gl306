@@ -11,7 +11,8 @@
 #include <stdlib.h>
 #include <xc.h>
 #include <libpic30.h>
-#include "i2c.h"
+#include "i2c_async.h"
+#include "pod_manager_async.h"
 
 static i2c_async_t i2c1_async;
 static pod_manager_async_t podman;

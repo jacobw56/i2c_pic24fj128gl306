@@ -3,14 +3,12 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>i2c_test2</name>
-            <creation-uuid>1af9ce11-27d6-4441-b48f-834b18b18ae9</creation-uuid>
+            <name>i2c_test3</name>
+            <creation-uuid>dc492ddd-9151-483a-9b43-7e3c622ccd0a</creation-uuid>
             <make-project-type>0</make-project-type>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
-            <sourceRootList>
-                <sourceRootElem>.</sourceRootElem>
-            </sourceRootList>
+            <sourceRootList/>
             <confList>
                 <confElem>
                     <name>default</name>

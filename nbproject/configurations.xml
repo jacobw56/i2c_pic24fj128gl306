@@ -4,46 +4,29 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-    </logicalFolder>
-    <logicalFolder name="i2c_pic24fj128gl306"
-                   displayName="i2c_pic24fj128gl306"
-                   projectFiles="true">
-      <logicalFolder name="debug" displayName="debug" projectFiles="true">
-        <logicalFolder name="default" displayName="default" projectFiles="true">
-        </logicalFolder>
+      <logicalFolder name="MCC Generated Files"
+                     displayName="MCC Generated Files"
+                     projectFiles="true">
+        <itemPath>mcc_generated_files/pin_manager.h</itemPath>
+        <itemPath>mcc_generated_files/interrupt_manager.h</itemPath>
+        <itemPath>mcc_generated_files/traps.h</itemPath>
+        <itemPath>mcc_generated_files/mcc.h</itemPath>
+        <itemPath>mcc_generated_files/system.h</itemPath>
+        <itemPath>mcc_generated_files/clock.h</itemPath>
       </logicalFolder>
-      <logicalFolder name="dist" displayName="dist" projectFiles="true">
-        <logicalFolder name="default" displayName="default" projectFiles="true">
-          <logicalFolder name="debug" displayName="debug" projectFiles="true">
-          </logicalFolder>
-          <logicalFolder name="production" displayName="production" projectFiles="true">
-          </logicalFolder>
-        </logicalFolder>
-      </logicalFolder>
-      <logicalFolder name="inc" displayName="inc" projectFiles="true">
-        <itemPath>inc/eeprom.h</itemPath>
-        <itemPath>inc/eeprom_async.h</itemPath>
-        <itemPath>inc/i2c.h</itemPath>
-        <itemPath>inc/i2c_async.h</itemPath>
-        <itemPath>inc/pod.h</itemPath>
-        <itemPath>inc/pod_manager.h</itemPath>
-        <itemPath>inc/pod_manager_async.h</itemPath>
-      </logicalFolder>
-      <logicalFolder name="src" displayName="src" projectFiles="true">
-        <itemPath>src/i2c.c</itemPath>
-        <itemPath>src/eeprom_async.c</itemPath>
-        <itemPath>src/pod_manager_async.c</itemPath>
-        <itemPath>src/eeprom.c</itemPath>
-        <itemPath>src/pod_manager.c</itemPath>
-        <itemPath>src/i2c_async.c</itemPath>
-        <itemPath>src/pod.c</itemPath>
-      </logicalFolder>
+      <itemPath>i2c.h</itemPath>
+      <itemPath>i2c_async.h</itemPath>
+      <itemPath>eeprom.h</itemPath>
+      <itemPath>eeprom_async.h</itemPath>
+      <itemPath>pod.h</itemPath>
+      <itemPath>pod_manager.h</itemPath>
+      <itemPath>pod_manager_async.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="true">
       <itemPath>Makefile</itemPath>
-      <itemPath>i2c_test2.mc3</itemPath>
+      <itemPath>12c_test3.mc3</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -52,12 +35,27 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="MCC Generated Files"
+                     displayName="MCC Generated Files"
+                     projectFiles="true">
+        <itemPath>mcc_generated_files/pin_manager.c</itemPath>
+        <itemPath>mcc_generated_files/interrupt_manager.c</itemPath>
+        <itemPath>mcc_generated_files/traps.c</itemPath>
+        <itemPath>mcc_generated_files/where_was_i.s</itemPath>
+        <itemPath>mcc_generated_files/mcc.c</itemPath>
+        <itemPath>mcc_generated_files/system.c</itemPath>
+        <itemPath>mcc_generated_files/clock.c</itemPath>
+      </logicalFolder>
       <itemPath>main.c</itemPath>
+      <itemPath>i2c.c</itemPath>
+      <itemPath>i2c_async.c</itemPath>
+      <itemPath>eeprom.c</itemPath>
+      <itemPath>eeprom_async.c</itemPath>
+      <itemPath>pod.c</itemPath>
+      <itemPath>pod_manager.c</itemPath>
+      <itemPath>pod_manager_async.c</itemPath>
     </logicalFolder>
   </logicalFolder>
-  <sourceRootList>
-    <Elem>.</Elem>
-  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="default" type="2">
@@ -66,7 +64,7 @@
         <targetDevice>PIC24FJ128GL306</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>ICD5Tool</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>2.10</languageToolchainVersion>
         <platform>2</platform>
