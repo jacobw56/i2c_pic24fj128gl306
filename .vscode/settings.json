@@ -2,6 +2,8 @@
   "files.associations": {
     "i2c.h": "c",
     "eeprom.h": "c",
-    "stdbool.h": "c"
+    "stdbool.h": "c",
+    "stdint.h": "c",
+    "cstdlib": "c"
   }
 }

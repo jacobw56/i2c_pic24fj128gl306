@@ -1,3 +1,14 @@
+/**
+ * @file pod_manager_async.h
+ * @author Walt
+ * @brief pod manager async
+ * @version 0.1
+ * @date 2025-10-22
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
+
 #ifndef __POD_MANAGER_ASYNC_H__
 #define __POD_MANAGER_ASYNC_H__
 
@@ -8,7 +19,8 @@
 #define POD_BAY_COUNT 6
 #define POD_EEPROM_BLOCK_SIZE 22
 
-typedef struct {
+typedef struct
+{
     bool active;
     uint8_t bay;
     uint8_t uid[16];
@@ -19,7 +31,8 @@ typedef struct {
     uint8_t buf[POD_EEPROM_BLOCK_SIZE];
 } poda_t;
 
-typedef struct {
+typedef struct
+{
     i2c_async_t *bus;
     poda_t pods[POD_BAY_COUNT];
 } pod_manager_async_t;

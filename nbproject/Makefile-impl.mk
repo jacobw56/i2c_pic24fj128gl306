@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=i2c_test2.X
+PROJECTNAME=i2c_pic24fj128gl306
 
 # Active Configuration
 DEFAULTCONF=default

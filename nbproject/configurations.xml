@@ -5,6 +5,40 @@
                    displayName="Header Files"
                    projectFiles="true">
     </logicalFolder>
+    <logicalFolder name="i2c_pic24fj128gl306"
+                   displayName="i2c_pic24fj128gl306"
+                   projectFiles="true">
+      <logicalFolder name="debug" displayName="debug" projectFiles="true">
+        <logicalFolder name="default" displayName="default" projectFiles="true">
+        </logicalFolder>
+      </logicalFolder>
+      <logicalFolder name="dist" displayName="dist" projectFiles="true">
+        <logicalFolder name="default" displayName="default" projectFiles="true">
+          <logicalFolder name="debug" displayName="debug" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="production" displayName="production" projectFiles="true">
+          </logicalFolder>
+        </logicalFolder>
+      </logicalFolder>
+      <logicalFolder name="inc" displayName="inc" projectFiles="true">
+        <itemPath>inc/eeprom.h</itemPath>
+        <itemPath>inc/eeprom_async.h</itemPath>
+        <itemPath>inc/i2c.h</itemPath>
+        <itemPath>inc/i2c_async.h</itemPath>
+        <itemPath>inc/pod.h</itemPath>
+        <itemPath>inc/pod_manager.h</itemPath>
+        <itemPath>inc/pod_manager_async.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="src" displayName="src" projectFiles="true">
+        <itemPath>src/i2c.c</itemPath>
+        <itemPath>src/eeprom_async.c</itemPath>
+        <itemPath>src/pod_manager_async.c</itemPath>
+        <itemPath>src/eeprom.c</itemPath>
+        <itemPath>src/pod_manager.c</itemPath>
+        <itemPath>src/i2c_async.c</itemPath>
+        <itemPath>src/pod.c</itemPath>
+      </logicalFolder>
+    </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="true">
@@ -21,6 +55,9 @@
       <itemPath>main.c</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="default" type="2">
@@ -32,7 +69,7 @@
         <platformTool>ICD5Tool</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>2.10</languageToolchainVersion>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <packs>
         <pack name="PIC24F-GL-GU_DFP" vendor="Microchip" version="1.6.243"/>

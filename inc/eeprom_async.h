@@ -1,3 +1,14 @@
+/**
+ * @file eeprom_async.h
+ * @author Walt
+ * @brief eeprom async driver
+ * @version 0.1
+ * @date 2025-10-22
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
+
 #ifndef __EEPROM_ASYNC_H__
 #define __EEPROM_ASYNC_H__
 
@@ -5,7 +16,13 @@
 #include <stdbool.h>
 #include "i2c_async.h"
 
-typedef enum { EEPROMA_OK = 0, EEPROMA_ERR_NACK, EEPROMA_ERR_TIMEOUT } eeproma_result_t;
+typedef enum
+{
+    EEPROMA_OK = 0,
+    EEPROMA_ERR_NACK,
+    EEPROMA_ERR_TIMEOUT
+} eeproma_result_t;
+
 typedef void (*eeproma_callback_t)(void *ctx, eeproma_result_t res);
 
 typedef struct
