@@ -1,7 +1,15 @@
 #include "pod_manager_async.h"
 #include <string.h>
 
-static const uint8_t POD_ADDRS[POD_BAY_COUNT] = {0x51, 0x52, 0x53, 0x54, 0x55, 0x56};
+/**
+ * Note that the i2c addess and relay pin mapping goes
+ * Pod:         1R      2R      3R      1L      2L      3L
+ * Pod number:  0       1       2       3       4       5
+ * E2,E1,E0:    001     011     111     110     101     100
+ * i2c Address: 0x51    0x53    0x57    0x56    0x55    0x54
+ * Pin:         RB7     RB8     RB9     RE1     RE0     RF1
+ */
+static const uint8_t POD_ADDRS[POD_BAY_COUNT] = {0x51, 0x53, 0x57, 0x56, 0x55, 0x54};
 
 static void pod_read_done(void *ctx, eeproma_result_t res);
 static inline uint16_t u16_from_buf(uint8_t *b) { return ((uint16_t)b[0] << 8) | b[1]; }

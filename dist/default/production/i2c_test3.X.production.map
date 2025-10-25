@@ -33,6 +33,7 @@ Command:
   build/default/production/pod.o \
   build/default/production/pod_manager.o \
   build/default/production/pod_manager_async.o \
+  build/default/production/relay_pwm_manager.o \
   --local-stack \
   --defsym=__MPLAB_BUILD=1 \
   -Tp24FJ128GL306.gld.00 \
@@ -110,27 +111,29 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x100               0x59c           0x86a  (2154)
-.const                       0x69c                0x20            0x30  (48)
-.text                        0x6bc               0xb22          0x10b3  (4275)
-.dinit                      0x11de                0x34            0x4e  (78)
-.text                       0x1212                0x1c            0x2a  (42)
-.init.delay32               0x122e                0x1c            0x2a  (42)
-.text                       0x124a                0x22            0x33  (51)
+.text                        0x100               0x62e           0x945  (2373)
+.const                       0x72e                0x44            0x66  (102)
+.text                        0x772               0xcec          0x1362  (4962)
+.dinit                      0x145e                0x42            0x63  (99)
+.text                       0x14a0                0x5a            0x87  (135)
+.init.delay32               0x14fa                0x1c            0x2a  (42)
+.text                       0x1516                0x22            0x33  (51)
 
-                 Total "program" memory used (bytes):         0x1a22  (6690) 4%
+                 Total "program" memory used (bytes):         0x1e54  (7764) 5%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-mcc_generated_files/where_was_i.s.scn1     0x800                   0             0x4  (4)
-.ndata                       0x804                   0             0x2  (2)
-.nbss                        0x806                   0             0x6  (6)
-.bss                         0x80c                   0           0x250  (592)
+.nbss                        0x800                   0             0x6  (6)
+mcc_generated_files/where_was_i.s.scn1     0x806                   0             0x4  (4)
+.ndata                       0x80a                   0             0x2  (2)
+.nbss                        0x80c                   0             0x6  (6)
+.ndata                       0x812                   0             0x2  (2)
+.bss                         0x814                   0           0x250  (592)
 
-                 Total "data" memory used (bytes):          0x25c  (604) 7%
+                 Total "data" memory used (bytes):          0x264  (612) 7%
 
 
 Dynamic Memory Usage
@@ -138,20 +141,20 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0xa5c                              0x1da4  (7588)
+stack                        0xa64                              0x1d9c  (7580)
 
-                 Maximum dynamic memory (bytes):         0x1da4  (7588)
+                 Maximum dynamic memory (bytes):         0x1d9c  (7580)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
 
 External Symbols in Data Memory (by address):
 
-                    0x0800                  _trapSrcAddr
+                    0x0806                  _trapSrcAddr
 
 External Symbols in Data Memory (by name):
 
-                    0x0800                  _trapSrcAddr
+                    0x0806                  _trapSrcAddr
 
 External Symbols in Program Memory (by address):
 
@@ -161,97 +164,107 @@ External Symbols in Program Memory (by address):
                   0x000152                  __data_init
                   0x0002ce                  __T3Interrupt
                   0x0002ee                  __MI2C1Interrupt
-                  0x000594                  __DefaultInterrupt
-                  0x00059a                  ___udivsi3
-                  0x0005ba                  _memcpy
-                  0x0005c8                  _memset
-                  0x000690                  ___mulp32eds3
-                  0x000690                  ___mulp32peds3
-                  0x000690                  ___mulsi3
-                  0x000708                  _eeprom_init
-                  0x00072a                  _eeprom_deinit
-                  0x00073e                  _eeprom_write_byte
-                  0x0007c0                  _eeprom_read_byte
-                  0x00085c                  _eeprom_read_block
-                  0x00091e                  _eeprom_write_block
-                  0x000a74                  _i2c_init
-                  0x000ae4                  _i2c_deinit
-                  0x000b1c                  _i2c_start
-                  0x000b4c                  _i2c_restart
-                  0x000b7c                  _i2c_stop
-                  0x000bac                  _i2c_write_byte
-                  0x000bfa                  _i2c_read_byte
-                  0x000ccc                  _i2c_async_init
-                  0x000d0c                  _i2c_async_submit
-                  0x000dfc                  _pod_init
-                  0x000e28                  _pod_deinit
-                  0x000e3e                  _pod_detect
-                  0x000e8e                  _pod_load_metadata
-                  0x000efe                  _pod_manager_async_init
-                  0x000f4e                  _pod_manager_async_poll
-                  0x000f88                  build/default/production/pod_manager_async.o:_pod_read_done
-                  0x000fd2                  _eeproma_read_block_async
-                  0x001040                  build/default/production/eeprom_async.o:_eeproma_read_cb
-                  0x00108a                  _eeproma_init
-                  0x0010ac                  _PIN_MANAGER_Initialize
-                  0x00113a                  _system_init
-                  0x001166                  _main
-                  0x0011a0                  _CLOCK_Initialize
-                  0x00122e                  ___delay32
-                  0x00124a                  _where_was_i
-                  0x00125a                  _SYSTEM_Initialize
-                  0x001266                  _INTERRUPT_Initialize
+                  0x000594                  __T4Interrupt
+                  0x000626                  __DefaultInterrupt
+                  0x00062c                  ___udivsi3
+                  0x00064c                  _memcpy
+                  0x00065a                  _memset
+                  0x000722                  ___mulp32eds3
+                  0x000722                  ___mulp32peds3
+                  0x000722                  ___mulsi3
+                  0x0007be                  _eeprom_init
+                  0x0007e0                  _eeprom_deinit
+                  0x0007f4                  _eeprom_write_byte
+                  0x000876                  _eeprom_read_byte
+                  0x000912                  _eeprom_read_block
+                  0x0009d4                  _eeprom_write_block
+                  0x000b2a                  _i2c_init
+                  0x000b9a                  _i2c_deinit
+                  0x000bd2                  _i2c_start
+                  0x000c02                  _i2c_restart
+                  0x000c32                  _i2c_stop
+                  0x000c62                  _i2c_write_byte
+                  0x000cb0                  _i2c_read_byte
+                  0x000dbe                  _relay_pwm_init
+                  0x000ebc                  _relay_pwm_fire
+                  0x000ef6                  _relay_pwm_stop
+                  0x000f56                  _i2c_async_init
+                  0x000f96                  _i2c_async_submit
+                  0x001086                  _pod_manager_async_init
+                  0x0010d6                  _pod_manager_async_poll
+                  0x001110                  build/default/production/pod_manager_async.o:_pod_read_done
+                  0x00115a                  _pod_manager_fire
+                  0x0011b6                  _pod_init
+                  0x0011e2                  _pod_deinit
+                  0x0011f8                  _pod_detect
+                  0x001248                  _pod_load_metadata
+                  0x0012a0                  _eeproma_read_block_async
+                  0x00130e                  build/default/production/eeprom_async.o:_eeproma_read_cb
+                  0x001358                  _eeproma_init
+                  0x00137a                  _PIN_MANAGER_Initialize
+                  0x001408                  _system_init
+                  0x001434                  _main
+                  0x0014a0                  _CLOCK_Initialize
+                  0x0014fa                  ___delay32
+                  0x001516                  _where_was_i
+                  0x001526                  _SYSTEM_Initialize
+                  0x001532                  _INTERRUPT_Initialize
                   0x015f00                  __FSEC.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x0011a0                  _CLOCK_Initialize
-                  0x001266                  _INTERRUPT_Initialize
-                  0x0010ac                  _PIN_MANAGER_Initialize
-                  0x00125a                  _SYSTEM_Initialize
-                  0x000594                  __DefaultInterrupt
+                  0x0014a0                  _CLOCK_Initialize
+                  0x001532                  _INTERRUPT_Initialize
+                  0x00137a                  _PIN_MANAGER_Initialize
+                  0x001526                  _SYSTEM_Initialize
+                  0x000626                  __DefaultInterrupt
                   0x015f00                  __FSEC.sec
                   0x0002ee                  __MI2C1Interrupt
                   0x0002ce                  __T3Interrupt
-                  0x00122e                  ___delay32
-                  0x000690                  ___mulp32eds3
-                  0x000690                  ___mulp32peds3
-                  0x000690                  ___mulsi3
-                  0x00059a                  ___udivsi3
+                  0x000594                  __T4Interrupt
+                  0x0014fa                  ___delay32
+                  0x000722                  ___mulp32eds3
+                  0x000722                  ___mulp32peds3
+                  0x000722                  ___mulsi3
+                  0x00062c                  ___udivsi3
                   0x000152                  __data_init
                   0x000152                  __data_init_da
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x00072a                  _eeprom_deinit
-                  0x000708                  _eeprom_init
-                  0x00085c                  _eeprom_read_block
-                  0x0007c0                  _eeprom_read_byte
-                  0x00091e                  _eeprom_write_block
-                  0x00073e                  _eeprom_write_byte
-                  0x00108a                  _eeproma_init
-                  0x000fd2                  _eeproma_read_block_async
-                  0x000ccc                  _i2c_async_init
-                  0x000d0c                  _i2c_async_submit
-                  0x000ae4                  _i2c_deinit
-                  0x000a74                  _i2c_init
-                  0x000bfa                  _i2c_read_byte
-                  0x000b4c                  _i2c_restart
-                  0x000b1c                  _i2c_start
-                  0x000b7c                  _i2c_stop
-                  0x000bac                  _i2c_write_byte
-                  0x001166                  _main
-                  0x0005ba                  _memcpy
-                  0x0005c8                  _memset
-                  0x000e28                  _pod_deinit
-                  0x000e3e                  _pod_detect
-                  0x000dfc                  _pod_init
-                  0x000e8e                  _pod_load_metadata
-                  0x000efe                  _pod_manager_async_init
-                  0x000f4e                  _pod_manager_async_poll
-                  0x00113a                  _system_init
-                  0x00124a                  _where_was_i
-                  0x001040                  build/default/production/eeprom_async.o:_eeproma_read_cb
-                  0x000f88                  build/default/production/pod_manager_async.o:_pod_read_done
+                  0x0007e0                  _eeprom_deinit
+                  0x0007be                  _eeprom_init
+                  0x000912                  _eeprom_read_block
+                  0x000876                  _eeprom_read_byte
+                  0x0009d4                  _eeprom_write_block
+                  0x0007f4                  _eeprom_write_byte
+                  0x001358                  _eeproma_init
+                  0x0012a0                  _eeproma_read_block_async
+                  0x000f56                  _i2c_async_init
+                  0x000f96                  _i2c_async_submit
+                  0x000b9a                  _i2c_deinit
+                  0x000b2a                  _i2c_init
+                  0x000cb0                  _i2c_read_byte
+                  0x000c02                  _i2c_restart
+                  0x000bd2                  _i2c_start
+                  0x000c32                  _i2c_stop
+                  0x000c62                  _i2c_write_byte
+                  0x001434                  _main
+                  0x00064c                  _memcpy
+                  0x00065a                  _memset
+                  0x0011e2                  _pod_deinit
+                  0x0011f8                  _pod_detect
+                  0x0011b6                  _pod_init
+                  0x001248                  _pod_load_metadata
+                  0x001086                  _pod_manager_async_init
+                  0x0010d6                  _pod_manager_async_poll
+                  0x00115a                  _pod_manager_fire
+                  0x000ebc                  _relay_pwm_fire
+                  0x000dbe                  _relay_pwm_init
+                  0x000ef6                  _relay_pwm_stop
+                  0x001408                  _system_init
+                  0x001516                  _where_was_i
+                  0x00130e                  build/default/production/eeprom_async.o:_eeproma_read_cb
+                  0x001110                  build/default/production/pod_manager_async.o:_pod_read_done
 
 Memory Configuration
 
@@ -293,6 +306,7 @@ LOAD build/default/production/eeprom_async.o
 LOAD build/default/production/pod.o
 LOAD build/default/production/pod_manager.o
 LOAD build/default/production/pod_manager_async.o
+LOAD build/default/production/relay_pwm_manager.o
                     0x0001                  __MPLAB_BUILD = 0x1
 LOAD pPIC24Fxxx
 LOAD /opt/microchip/xc16/v2.10/bin/bin/../../lib/libfx-elf.a
@@ -324,7 +338,7 @@ LOAD /opt/microchip/xc16/v2.10/bin/bin/../../lib/libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000100        0x59c
+.text             0x000100        0x62e
  *(.init)
  .init            0x000100         0x4c /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(crt0_extended24.o)
                   0x000100                  __reset
@@ -348,26 +362,28 @@ LOAD /opt/microchip/xc16/v2.10/bin/bin/../../lib/libfx-elf.a
                   0x0002ce                  __T3Interrupt
  .isr.text        0x0002ee        0x2a6 build/default/production/i2c_async.o
                   0x0002ee                  __MI2C1Interrupt
- .isr             0x000594          0x4 default_isr
-                  0x000594                  __DefaultInterrupt
+ .isr.text        0x000594         0x92 build/default/production/relay_pwm_manager.o
+                  0x000594                  __T4Interrupt
+ .isr             0x000626          0x4 default_isr
+                  0x000626                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x000598          0x2 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
-                  0x000598                  __crt_start_mode_normal
-                  0x000598                  __crt_start_mode
- .libm.udivsi3    0x00059a         0x20 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
-                  0x00059a                  ___udivsi3
- .libc.memcpy     0x0005ba          0xe /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-elf.a(memcpy.DA_o)
-                  0x0005ba                  _memcpy
- .libc.memset     0x0005c8         0xc8 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-elf.a(memset.DA_o)
-                  0x0005c8                  _memset
- .libm.mulsi3     0x000690          0xc /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
-                  0x000690                  ___mulp32eds3
-                  0x000690                  ___mulp32peds3
-                  0x000690                  ___mulsi3
+                  0x00062a          0x2 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
+                  0x00062a                  __crt_start_mode_normal
+                  0x00062a                  __crt_start_mode
+ .libm.udivsi3    0x00062c         0x20 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
+                  0x00062c                  ___udivsi3
+ .libc.memcpy     0x00064c          0xe /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-elf.a(memcpy.DA_o)
+                  0x00064c                  _memcpy
+ .libc.memset     0x00065a         0xc8 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-elf.a(memset.DA_o)
+                  0x00065a                  _memset
+ .libm.mulsi3     0x000722          0xc /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
+                  0x000722                  ___mulp32eds3
+                  0x000722                  ___mulp32peds3
+                  0x000722                  ___mulsi3
 
 usercode
  *(usercode)
@@ -419,7 +435,7 @@ __FDEVOPT1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x5496
+.debug_info       0x000000       0x6710
  *(.debug_info)
  .debug_info      0x000000        0x855 build/default/production/mcc_generated_files/pin_manager.o
  .debug_info      0x000855        0x15e build/default/production/mcc_generated_files/interrupt_manager.o
@@ -427,19 +443,20 @@ __FDEVOPT1
  .debug_info      0x000e70         0x95 build/default/production/mcc_generated_files/where_was_i.o
  .debug_info      0x000f05        0x32a build/default/production/mcc_generated_files/system.o
  .debug_info      0x00122f        0x306 build/default/production/mcc_generated_files/clock.o
- .debug_info      0x001535        0xcff build/default/production/main.o
- .debug_info      0x002234        0x708 build/default/production/i2c.o
- .debug_info      0x00293c        0x888 build/default/production/i2c_async.o
- .debug_info      0x0031c4        0x6fd build/default/production/eeprom.o
- .debug_info      0x0038c1        0x70f build/default/production/eeprom_async.o
- .debug_info      0x003fd0        0x582 build/default/production/pod.o
- .debug_info      0x004552        0x692 build/default/production/pod_manager.o
- .debug_info      0x004be4        0x799 build/default/production/pod_manager_async.o
- .debug_info      0x00537d         0x8d /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
- .debug_info      0x00540a         0x8c /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
+ .debug_info      0x001535        0xcc9 build/default/production/main.o
+ .debug_info      0x0021fe        0x708 build/default/production/i2c.o
+ .debug_info      0x002906        0x888 build/default/production/i2c_async.o
+ .debug_info      0x00318e        0x6fd build/default/production/eeprom.o
+ .debug_info      0x00388b        0x70f build/default/production/eeprom_async.o
+ .debug_info      0x003f9a        0x582 build/default/production/pod.o
+ .debug_info      0x00451c        0x692 build/default/production/pod_manager.o
+ .debug_info      0x004bae        0x80f build/default/production/pod_manager_async.o
+ .debug_info      0x0053bd       0x123a build/default/production/relay_pwm_manager.o
+ .debug_info      0x0065f7         0x8d /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_info      0x006684         0x8c /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0xbf7
+.debug_abbrev     0x000000        0xd55
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x59 build/default/production/mcc_generated_files/pin_manager.o
  .debug_abbrev    0x000059         0x34 build/default/production/mcc_generated_files/interrupt_manager.o
@@ -448,18 +465,19 @@ __FDEVOPT1
  .debug_abbrev    0x0001a1          0x1 build/default/production/mcc_generated_files/mcc.o
  .debug_abbrev    0x0001a2         0xb4 build/default/production/mcc_generated_files/system.o
  .debug_abbrev    0x000256         0x6a build/default/production/mcc_generated_files/clock.o
- .debug_abbrev    0x0002c0        0x1ba build/default/production/main.o
- .debug_abbrev    0x00047a        0x13f build/default/production/i2c.o
- .debug_abbrev    0x0005b9        0x15a build/default/production/i2c_async.o
- .debug_abbrev    0x000713         0xff build/default/production/eeprom.o
- .debug_abbrev    0x000812         0xff build/default/production/eeprom_async.o
- .debug_abbrev    0x000911         0xfc build/default/production/pod.o
- .debug_abbrev    0x000a0d         0xad build/default/production/pod_manager.o
- .debug_abbrev    0x000aba        0x115 build/default/production/pod_manager_async.o
- .debug_abbrev    0x000bcf         0x14 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
- .debug_abbrev    0x000be3         0x14 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
+ .debug_abbrev    0x0002c0        0x1af build/default/production/main.o
+ .debug_abbrev    0x00046f        0x13f build/default/production/i2c.o
+ .debug_abbrev    0x0005ae        0x15a build/default/production/i2c_async.o
+ .debug_abbrev    0x000708         0xff build/default/production/eeprom.o
+ .debug_abbrev    0x000807         0xff build/default/production/eeprom_async.o
+ .debug_abbrev    0x000906         0xfc build/default/production/pod.o
+ .debug_abbrev    0x000a02         0xad build/default/production/pod_manager.o
+ .debug_abbrev    0x000aaf        0x115 build/default/production/pod_manager_async.o
+ .debug_abbrev    0x000bc4        0x169 build/default/production/relay_pwm_manager.o
+ .debug_abbrev    0x000d2d         0x14 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_abbrev    0x000d41         0x14 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
 
-.debug_line       0x000000        0xe46
+.debug_line       0x000000        0xfcd
  *(.debug_line)
  .debug_line      0x000000        0x13e build/default/production/mcc_generated_files/pin_manager.o
  .debug_line      0x00013e         0x55 build/default/production/mcc_generated_files/interrupt_manager.o
@@ -468,18 +486,19 @@ __FDEVOPT1
  .debug_line      0x000325         0x1a build/default/production/mcc_generated_files/mcc.o
  .debug_line      0x00033f        0x106 build/default/production/mcc_generated_files/system.o
  .debug_line      0x000445        0x110 build/default/production/mcc_generated_files/clock.o
- .debug_line      0x000555        0x155 build/default/production/main.o
- .debug_line      0x0006aa        0x141 build/default/production/i2c.o
- .debug_line      0x0007eb        0x1ba build/default/production/i2c_async.o
- .debug_line      0x0009a5        0x11e build/default/production/eeprom.o
- .debug_line      0x000ac3         0xc4 build/default/production/eeprom_async.o
- .debug_line      0x000b87         0xb5 build/default/production/pod.o
- .debug_line      0x000c3c         0xac build/default/production/pod_manager.o
- .debug_line      0x000ce8         0xdf build/default/production/pod_manager_async.o
- .debug_line      0x000dc7         0x45 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
- .debug_line      0x000e0c         0x3a /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
+ .debug_line      0x000555        0x154 build/default/production/main.o
+ .debug_line      0x0006a9        0x141 build/default/production/i2c.o
+ .debug_line      0x0007ea        0x1ba build/default/production/i2c_async.o
+ .debug_line      0x0009a4        0x11e build/default/production/eeprom.o
+ .debug_line      0x000ac2         0xc4 build/default/production/eeprom_async.o
+ .debug_line      0x000b86         0xb5 build/default/production/pod.o
+ .debug_line      0x000c3b         0xac build/default/production/pod_manager.o
+ .debug_line      0x000ce7         0xe9 build/default/production/pod_manager_async.o
+ .debug_line      0x000dd0        0x17e build/default/production/relay_pwm_manager.o
+ .debug_line      0x000f4e         0x45 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_line      0x000f93         0x3a /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
 
-.debug_frame      0x000000        0x712
+.debug_frame      0x000000        0x84e
  *(.debug_frame)
  .debug_frame     0x000000         0x2e build/default/production/mcc_generated_files/pin_manager.o
  .debug_frame     0x00002e         0x2e build/default/production/mcc_generated_files/interrupt_manager.o
@@ -492,9 +511,10 @@ __FDEVOPT1
  .debug_frame     0x0004d4         0xca build/default/production/eeprom.o
  .debug_frame     0x00059e         0x62 build/default/production/eeprom_async.o
  .debug_frame     0x000600         0x96 build/default/production/pod.o
- .debug_frame     0x000696         0x7c build/default/production/pod_manager_async.o
+ .debug_frame     0x000696         0x96 build/default/production/pod_manager_async.o
+ .debug_frame     0x00072c        0x122 build/default/production/relay_pwm_manager.o
 
-.debug_str        0x000000         0xbe
+.debug_str        0x000000        0x128
  *(.debug_str)
  .debug_str       0x000000         0x24 build/default/production/mcc_generated_files/traps.o
  .debug_str       0x000024          0xc build/default/production/mcc_generated_files/system.o
@@ -503,6 +523,7 @@ __FDEVOPT1
  .debug_str       0x00007c         0x1c build/default/production/i2c.o
  .debug_str       0x000098         0x12 build/default/production/i2c_async.o
  .debug_str       0x0000aa         0x14 build/default/production/eeprom.o
+ .debug_str       0x0000be         0x6a build/default/production/relay_pwm_manager.o
 
 .debug_loc
  *(.debug_loc)
@@ -511,7 +532,7 @@ __FDEVOPT1
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x3a5
+                  0x000000        0x416
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x2d build/default/production/mcc_generated_files/pin_manager.o
@@ -536,12 +557,14 @@ __FDEVOPT1
  .debug_pubnames
                   0x00030a         0x53 build/default/production/pod.o
  .debug_pubnames
-                  0x00035d         0x48 build/default/production/pod_manager_async.o
+                  0x00035d         0x5d build/default/production/pod_manager_async.o
+ .debug_pubnames
+                  0x0003ba         0x5c build/default/production/relay_pwm_manager.o
 
 .debug_ranges
  *(.debug_ranges)
 
-.debug_aranges    0x000000        0x180
+.debug_aranges    0x000000        0x198
  *(.debug_aranges)
  .debug_aranges
                   0x000000         0x18 build/default/production/mcc_generated_files/pin_manager.o
@@ -570,9 +593,11 @@ __FDEVOPT1
  .debug_aranges
                   0x000128         0x18 build/default/production/pod_manager_async.o
  .debug_aranges
-                  0x000140         0x20 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
+                  0x000140         0x18 build/default/production/relay_pwm_manager.o
  .debug_aranges
-                  0x000160         0x20 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
+                  0x000158         0x20 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_aranges
+                  0x000178         0x20 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -2334,97 +2359,107 @@ LOAD default_isr
 LOAD data_init
 
 .debug_pubtypes
-                  0x000180        0x765
+                  0x000198        0x866
  .debug_pubtypes
-                  0x000180         0x1f build/default/production/mcc_generated_files/pin_manager.o
+                  0x000198         0x1f build/default/production/mcc_generated_files/pin_manager.o
  .debug_pubtypes
-                  0x00019f         0x12 build/default/production/mcc_generated_files/interrupt_manager.o
+                  0x0001b7         0x12 build/default/production/mcc_generated_files/interrupt_manager.o
  .debug_pubtypes
-                  0x0001b1         0x94 build/default/production/mcc_generated_files/traps.o
+                  0x0001c9         0x94 build/default/production/mcc_generated_files/traps.o
  .debug_pubtypes
-                  0x000245         0x42 build/default/production/mcc_generated_files/system.o
+                  0x00025d         0x42 build/default/production/mcc_generated_files/system.o
  .debug_pubtypes
-                  0x000287         0x2b build/default/production/mcc_generated_files/clock.o
+                  0x00029f         0x2b build/default/production/mcc_generated_files/clock.o
  .debug_pubtypes
-                  0x0002b2        0x140 build/default/production/main.o
+                  0x0002ca        0x140 build/default/production/main.o
  .debug_pubtypes
-                  0x0003f2         0x8f build/default/production/i2c.o
+                  0x00040a         0x8f build/default/production/i2c.o
  .debug_pubtypes
-                  0x000481         0xcd build/default/production/i2c_async.o
+                  0x000499         0xcd build/default/production/i2c_async.o
  .debug_pubtypes
-                  0x00054e         0x84 build/default/production/eeprom.o
+                  0x000566         0x84 build/default/production/eeprom.o
  .debug_pubtypes
-                  0x0005d2         0xdf build/default/production/eeprom_async.o
+                  0x0005ea         0xdf build/default/production/eeprom_async.o
  .debug_pubtypes
-                  0x0006b1         0x7a build/default/production/pod.o
+                  0x0006c9         0x7a build/default/production/pod.o
  .debug_pubtypes
-                  0x00072b         0xe1 build/default/production/pod_manager.o
+                  0x000743         0xe1 build/default/production/pod_manager.o
  .debug_pubtypes
-                  0x00080c         0xd9 build/default/production/pod_manager_async.o
+                  0x000824         0xd9 build/default/production/pod_manager_async.o
+ .debug_pubtypes
+                  0x0008fd        0x101 build/default/production/relay_pwm_manager.o
 
 __c30_signature
-                  0x0008e5         0x7e
+                  0x0009fe         0x84
  __c30_signature
-                  0x0008e5          0x6 build/default/production/mcc_generated_files/pin_manager.o
+                  0x0009fe          0x6 build/default/production/mcc_generated_files/pin_manager.o
  __c30_signature
-                  0x0008eb          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
+                  0x000a04          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
  __c30_signature
-                  0x0008f1          0x6 build/default/production/mcc_generated_files/traps.o
+                  0x000a0a          0x6 build/default/production/mcc_generated_files/traps.o
  __c30_signature
-                  0x0008f7          0x6 build/default/production/mcc_generated_files/mcc.o
+                  0x000a10          0x6 build/default/production/mcc_generated_files/mcc.o
  __c30_signature
-                  0x0008fd          0x6 build/default/production/mcc_generated_files/system.o
+                  0x000a16          0x6 build/default/production/mcc_generated_files/system.o
  __c30_signature
-                  0x000903          0x6 build/default/production/mcc_generated_files/clock.o
+                  0x000a1c          0x6 build/default/production/mcc_generated_files/clock.o
  __c30_signature
-                  0x000909          0x6 build/default/production/main.o
+                  0x000a22          0x6 build/default/production/main.o
  __c30_signature
-                  0x00090f          0x6 build/default/production/i2c.o
+                  0x000a28          0x6 build/default/production/i2c.o
  __c30_signature
-                  0x000915          0x6 build/default/production/i2c_async.o
+                  0x000a2e          0x6 build/default/production/i2c_async.o
  __c30_signature
-                  0x00091b          0x6 build/default/production/eeprom.o
+                  0x000a34          0x6 build/default/production/eeprom.o
  __c30_signature
-                  0x000921          0x6 build/default/production/eeprom_async.o
+                  0x000a3a          0x6 build/default/production/eeprom_async.o
  __c30_signature
-                  0x000927          0x6 build/default/production/pod.o
+                  0x000a40          0x6 build/default/production/pod.o
  __c30_signature
-                  0x00092d          0x6 build/default/production/pod_manager.o
+                  0x000a46          0x6 build/default/production/pod_manager.o
  __c30_signature
-                  0x000933          0x6 build/default/production/pod_manager_async.o
+                  0x000a4c          0x6 build/default/production/pod_manager_async.o
  __c30_signature
-                  0x000939          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(crt0_extended24.o)
+                  0x000a52          0x6 build/default/production/relay_pwm_manager.o
  __c30_signature
-                  0x00093f          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(data_init_24.o)
+                  0x000a58          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(crt0_extended24.o)
  __c30_signature
-                  0x000945          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(delay32da.Meo)
+                  0x000a5e          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(data_init_24.o)
  __c30_signature
-                  0x00094b          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
+                  0x000a64          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(delay32da.Meo)
  __c30_signature
-                  0x000951          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-elf.a(memcpy.DA_o)
+                  0x000a6a          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
  __c30_signature
-                  0x000957          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-elf.a(memset.DA_o)
+                  0x000a70          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-elf.a(memcpy.DA_o)
  __c30_signature
-                  0x00095d          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
+                  0x000a76          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-elf.a(memset.DA_o)
+ __c30_signature
+                  0x000a7c          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
+
+.nbss               0x0800          0x6
+ .nbss              0x0800          0x6 build/default/production/relay_pwm_manager.o
 
 mcc_generated_files/where_was_i.s.scn1
-                    0x0800          0x4
+                    0x0806          0x4
  mcc_generated_files/where_was_i.s.scn1
-                    0x0800          0x4 build/default/production/mcc_generated_files/where_was_i.o
-                    0x0800                  _trapSrcAddr
+                    0x0806          0x4 build/default/production/mcc_generated_files/where_was_i.o
+                    0x0806                  _trapSrcAddr
 
-.ndata              0x0804          0x2
- .ndata             0x0804          0x2 build/default/production/mcc_generated_files/traps.o
+.ndata              0x080a          0x2
+ .ndata             0x080a          0x2 build/default/production/mcc_generated_files/traps.o
 
-.nbss               0x0806          0x6
- .nbss              0x0806          0x2 build/default/production/i2c_async.o
- .nbss              0x0808          0x2 build/default/production/eeprom_async.o
- .nbss              0x080a          0x2 build/default/production/pod_manager.o
+.nbss               0x080c          0x6
+ .nbss              0x080c          0x2 build/default/production/i2c_async.o
+ .nbss              0x080e          0x2 build/default/production/eeprom_async.o
+ .nbss              0x0810          0x2 build/default/production/pod_manager.o
 
-.bss                0x080c        0x250
- .bss               0x080c        0x226 build/default/production/main.o
- .bss               0x0a32         0x20 build/default/production/mcc_generated_files/traps.o
- .bss               0x0a52          0xa build/default/production/eeprom_async.o
+.ndata              0x0812          0x2
+ .ndata             0x0812          0x2 build/default/production/relay_pwm_manager.o
+
+.bss                0x0814        0x250
+ .bss               0x0814        0x226 build/default/production/main.o
+ .bss               0x0a3a         0x20 build/default/production/mcc_generated_files/traps.o
+ .bss               0x0a5a          0xa build/default/production/eeprom_async.o
 
 .ivt._OscillatorFail
                   0x000004          0x2
@@ -2514,67 +2549,78 @@ mcc_generated_files/where_was_i.s.scn1
  .ivt._MI2C1Interrupt
                   0x000036          0x2 build/default/production/i2c_async.o
 
-.const              0x869c         0x20 load address 0x00069c  
- .const             0x869c          0xa build/default/production/main.o
- .const             0x86a6          0xa build/default/production/i2c.o
- .const             0x86b0          0x6 build/default/production/pod_manager.o
- .const             0x86b6          0x6 build/default/production/pod_manager_async.o
+.ivt._T4Interrupt
+                  0x00004a          0x2
+ .ivt._T4Interrupt
+                  0x00004a          0x2 build/default/production/relay_pwm_manager.o
 
-.text             0x0006bc        0xb22
- .text            0x0006bc        0x340 build/default/production/eeprom.o
-                  0x000708                  _eeprom_init
-                  0x00072a                  _eeprom_deinit
-                  0x00073e                  _eeprom_write_byte
-                  0x0007c0                  _eeprom_read_byte
-                  0x00085c                  _eeprom_read_block
-                  0x00091e                  _eeprom_write_block
- .text            0x0009fc        0x282 build/default/production/i2c.o
-                  0x000a74                  _i2c_init
-                  0x000ae4                  _i2c_deinit
-                  0x000b1c                  _i2c_start
-                  0x000b4c                  _i2c_restart
-                  0x000b7c                  _i2c_stop
-                  0x000bac                  _i2c_write_byte
-                  0x000bfa                  _i2c_read_byte
- .text            0x000c7e        0x166 build/default/production/i2c_async.o
-                  0x000ccc                  _i2c_async_init
-                  0x000d0c                  _i2c_async_submit
- .text            0x000de4        0x102 build/default/production/pod.o
-                  0x000dfc                  _pod_init
-                  0x000e28                  _pod_deinit
-                  0x000e3e                  _pod_detect
-                  0x000e8e                  _pod_load_metadata
- .text            0x000ee6         0xec build/default/production/pod_manager_async.o
-                  0x000efe                  _pod_manager_async_init
-                  0x000f4e                  _pod_manager_async_poll
-                  0x000f88                  build/default/production/pod_manager_async.o:_pod_read_done
- .text            0x000fd2         0xda build/default/production/eeprom_async.o
-                  0x000fd2                  _eeproma_read_block_async
-                  0x001040                  build/default/production/eeprom_async.o:_eeproma_read_cb
-                  0x00108a                  _eeproma_init
- .text            0x0010ac         0x8e build/default/production/mcc_generated_files/pin_manager.o
-                  0x0010ac                  _PIN_MANAGER_Initialize
- .text            0x00113a         0x66 build/default/production/main.o
-                  0x00113a                  _system_init
-                  0x001166                  _main
- .text            0x0011a0         0x3e build/default/production/mcc_generated_files/clock.o
-                  0x0011a0                  _CLOCK_Initialize
+.const              0x872e         0x44 load address 0x00072e  
+ .const             0x872e         0x24 build/default/production/relay_pwm_manager.o
+ .const             0x8752          0xa build/default/production/main.o
+ .const             0x875c          0xa build/default/production/i2c.o
+ .const             0x8766          0x6 build/default/production/pod_manager.o
+ .const             0x876c          0x6 build/default/production/pod_manager_async.o
 
-.dinit            0x0011de         0x34
- .dinit           0x0011de         0x34 data_init
+.text             0x000772        0xcec
+ .text            0x000772        0x340 build/default/production/eeprom.o
+                  0x0007be                  _eeprom_init
+                  0x0007e0                  _eeprom_deinit
+                  0x0007f4                  _eeprom_write_byte
+                  0x000876                  _eeprom_read_byte
+                  0x000912                  _eeprom_read_block
+                  0x0009d4                  _eeprom_write_block
+ .text            0x000ab2        0x282 build/default/production/i2c.o
+                  0x000b2a                  _i2c_init
+                  0x000b9a                  _i2c_deinit
+                  0x000bd2                  _i2c_start
+                  0x000c02                  _i2c_restart
+                  0x000c32                  _i2c_stop
+                  0x000c62                  _i2c_write_byte
+                  0x000cb0                  _i2c_read_byte
+ .text            0x000d34        0x1d4 build/default/production/relay_pwm_manager.o
+                  0x000dbe                  _relay_pwm_init
+                  0x000ebc                  _relay_pwm_fire
+                  0x000ef6                  _relay_pwm_stop
+ .text            0x000f08        0x166 build/default/production/i2c_async.o
+                  0x000f56                  _i2c_async_init
+                  0x000f96                  _i2c_async_submit
+ .text            0x00106e        0x130 build/default/production/pod_manager_async.o
+                  0x001086                  _pod_manager_async_init
+                  0x0010d6                  _pod_manager_async_poll
+                  0x001110                  build/default/production/pod_manager_async.o:_pod_read_done
+                  0x00115a                  _pod_manager_fire
+ .text            0x00119e        0x102 build/default/production/pod.o
+                  0x0011b6                  _pod_init
+                  0x0011e2                  _pod_deinit
+                  0x0011f8                  _pod_detect
+                  0x001248                  _pod_load_metadata
+ .text            0x0012a0         0xda build/default/production/eeprom_async.o
+                  0x0012a0                  _eeproma_read_block_async
+                  0x00130e                  build/default/production/eeprom_async.o:_eeproma_read_cb
+                  0x001358                  _eeproma_init
+ .text            0x00137a         0x8e build/default/production/mcc_generated_files/pin_manager.o
+                  0x00137a                  _PIN_MANAGER_Initialize
+ .text            0x001408         0x56 build/default/production/main.o
+                  0x001408                  _system_init
+                  0x001434                  _main
 
-.text             0x001212         0x1c
- .text            0x001212         0x1c build/default/production/mcc_generated_files/traps.o
-                  0x001212                  _TRAPS_halt_on_error
+.dinit            0x00145e         0x42
+ .dinit           0x00145e         0x42 data_init
 
-.init.delay32     0x00122e         0x1c
- .init.delay32    0x00122e         0x1c /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(delay32da.Meo)
-                  0x00122e                  ___delay32
+.text             0x0014a0         0x5a
+ .text            0x0014a0         0x3e build/default/production/mcc_generated_files/clock.o
+                  0x0014a0                  _CLOCK_Initialize
+ .text            0x0014de         0x1c build/default/production/mcc_generated_files/traps.o
+                  0x0014de                  _TRAPS_halt_on_error
 
-.text             0x00124a         0x22
- .text            0x00124a         0x10 build/default/production/mcc_generated_files/where_was_i.o
-                  0x00124a                  _where_was_i
- .text            0x00125a          0xc build/default/production/mcc_generated_files/system.o
-                  0x00125a                  _SYSTEM_Initialize
- .text            0x001266          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
-                  0x001266                  _INTERRUPT_Initialize
+.init.delay32     0x0014fa         0x1c
+ .init.delay32    0x0014fa         0x1c /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(delay32da.Meo)
+                  0x0014fa                  ___delay32
+
+.text             0x001516         0x22
+ .text            0x001516         0x10 build/default/production/mcc_generated_files/where_was_i.o
+                  0x001516                  _where_was_i
+ .text            0x001526          0xc build/default/production/mcc_generated_files/system.o
+                  0x001526                  _SYSTEM_Initialize
+ .text            0x001532          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
+                  0x001532                  _INTERRUPT_Initialize

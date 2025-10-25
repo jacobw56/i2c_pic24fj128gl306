@@ -24,6 +24,7 @@ void system_init(void)
         &I2C1CONL, &I2C1STAT, &I2C1BRG, &I2C1TRN, &I2C1RCV};
     i2c_async_init(&i2c1_async, &i2c1_regs, 0x12);
     pod_manager_async_init(&podman, &i2c1_async);
+    relay_pwm_init();
     T3CON = 0;
     TMR3 = 0;
     PR3 = (uint16_t)((16000000UL / 256UL) * 0.1);
@@ -43,7 +44,6 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
 int main(void)
 {
     system_init();
-    relay_pwm_init();
 
     while (1)
     {

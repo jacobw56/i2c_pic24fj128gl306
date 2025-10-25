@@ -70,7 +70,7 @@ void relay_pwm_init(void)
     // --- CCP1 (Right) ---
     CCP1CON1L = 0; // Disable
     CCP1CON2H = 0;
-    CCP1CON1L = 0x0005; // Dual edge compare mode
+    CCP1CON1L = 0x0005;        // Dual edge compare mode
     CCP1CON1L |= (0b000 << 4); // Select Timer2 (TMRPS=0)
     CCP1PRL = 0xFFFF;
     CCP1RA = 0;
@@ -108,8 +108,8 @@ static void pwm_start(uint8_t pod, uint16_t freq)
     if (pod < 3)
     {
         CCP1PRL = pr2;
-        CCP1RA = pr2 / 4;  // rising edge
-        CCP1RB = (3 * pr2) / 4;  // falling edge (50% duty)
+        CCP1RA = pr2 / 4;       // rising edge
+        CCP1RB = (3 * pr2) / 4; // falling edge (50% duty)
         CCP1CON1Lbits.CCPON = 1;
     }
     else
