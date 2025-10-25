@@ -17,6 +17,7 @@
 #include <xc.h>
 #include <libpic30.h>
 #include "eeprom_async.h"
+#include "relay_pwm_manager.h"
 
 #define POD_BAY_COUNT 6
 #define POD_EEPROM_BLOCK_SIZE 22
@@ -41,5 +42,6 @@ typedef struct
 
 void pod_manager_async_init(pod_manager_async_t *pm, i2c_async_t *bus);
 void pod_manager_async_poll(pod_manager_async_t *pm);
+void pod_manager_fire(pod_manager_async_t *pm, uint8_t bay, uint16_t duration_ms, uint8_t intensity);
 
 #endif

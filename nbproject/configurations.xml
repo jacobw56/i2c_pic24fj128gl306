@@ -21,6 +21,7 @@
       <itemPath>pod.h</itemPath>
       <itemPath>pod_manager.h</itemPath>
       <itemPath>pod_manager_async.h</itemPath>
+      <itemPath>relay_pwm_manager.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -54,6 +55,7 @@
       <itemPath>pod.c</itemPath>
       <itemPath>pod_manager.c</itemPath>
       <itemPath>pod_manager_async.c</itemPath>
+      <itemPath>relay_pwm_manager.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>

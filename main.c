@@ -12,6 +12,7 @@
 #include <xc.h>
 #include <libpic30.h>
 #include "i2c_async.h"
+#include "relay_pwm_manager.h"
 #include "pod_manager_async.h"
 
 static i2c_async_t i2c1_async;
@@ -42,14 +43,19 @@ void __attribute__((__interrupt__, no_auto_psv)) _T3Interrupt(void)
 int main(void)
 {
     system_init();
+    relay_pwm_init();
+
     while (1)
     {
-        uint8_t active = 0;
-        for (uint8_t i = 0; i < POD_BAY_COUNT; i++)
-            if (podman.pods[i].active)
-            {
-                active++;
-            }
-        __delay_ms(50);
+        pod_manager_async_poll(&podman);
+
+        // Fire pod 2R at 70% intensity for 5 seconds
+        if (podman.pods[1].active)
+        {
+            pod_manager_fire(&podman, 1, 5000, 70);
+            __delay_ms(6000);
+        }
+
+        __delay_ms(100);
     }
 }

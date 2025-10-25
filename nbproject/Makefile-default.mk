@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=mcc_generated_files/pin_manager.c mcc_generated_files/interrupt_manager.c mcc_generated_files/traps.c mcc_generated_files/where_was_i.s mcc_generated_files/mcc.c mcc_generated_files/system.c mcc_generated_files/clock.c main.c i2c.c i2c_async.c eeprom.c eeprom_async.c pod.c pod_manager.c pod_manager_async.c
+SOURCEFILES_QUOTED_IF_SPACED=mcc_generated_files/pin_manager.c mcc_generated_files/interrupt_manager.c mcc_generated_files/traps.c mcc_generated_files/where_was_i.s mcc_generated_files/mcc.c mcc_generated_files/system.c mcc_generated_files/clock.c main.c i2c.c i2c_async.c eeprom.c eeprom_async.c pod.c pod_manager.c pod_manager_async.c relay_pwm_manager.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/mcc_generated_files/pin_manager.o ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o ${OBJECTDIR}/mcc_generated_files/traps.o ${OBJECTDIR}/mcc_generated_files/where_was_i.o ${OBJECTDIR}/mcc_generated_files/mcc.o ${OBJECTDIR}/mcc_generated_files/system.o ${OBJECTDIR}/mcc_generated_files/clock.o ${OBJECTDIR}/main.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/i2c_async.o ${OBJECTDIR}/eeprom.o ${OBJECTDIR}/eeprom_async.o ${OBJECTDIR}/pod.o ${OBJECTDIR}/pod_manager.o ${OBJECTDIR}/pod_manager_async.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/mcc_generated_files/pin_manager.o.d ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o.d ${OBJECTDIR}/mcc_generated_files/traps.o.d ${OBJECTDIR}/mcc_generated_files/where_was_i.o.d ${OBJECTDIR}/mcc_generated_files/mcc.o.d ${OBJECTDIR}/mcc_generated_files/system.o.d ${OBJECTDIR}/mcc_generated_files/clock.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/i2c.o.d ${OBJECTDIR}/i2c_async.o.d ${OBJECTDIR}/eeprom.o.d ${OBJECTDIR}/eeprom_async.o.d ${OBJECTDIR}/pod.o.d ${OBJECTDIR}/pod_manager.o.d ${OBJECTDIR}/pod_manager_async.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/mcc_generated_files/pin_manager.o ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o ${OBJECTDIR}/mcc_generated_files/traps.o ${OBJECTDIR}/mcc_generated_files/where_was_i.o ${OBJECTDIR}/mcc_generated_files/mcc.o ${OBJECTDIR}/mcc_generated_files/system.o ${OBJECTDIR}/mcc_generated_files/clock.o ${OBJECTDIR}/main.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/i2c_async.o ${OBJECTDIR}/eeprom.o ${OBJECTDIR}/eeprom_async.o ${OBJECTDIR}/pod.o ${OBJECTDIR}/pod_manager.o ${OBJECTDIR}/pod_manager_async.o ${OBJECTDIR}/relay_pwm_manager.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/mcc_generated_files/pin_manager.o.d ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o.d ${OBJECTDIR}/mcc_generated_files/traps.o.d ${OBJECTDIR}/mcc_generated_files/where_was_i.o.d ${OBJECTDIR}/mcc_generated_files/mcc.o.d ${OBJECTDIR}/mcc_generated_files/system.o.d ${OBJECTDIR}/mcc_generated_files/clock.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/i2c.o.d ${OBJECTDIR}/i2c_async.o.d ${OBJECTDIR}/eeprom.o.d ${OBJECTDIR}/eeprom_async.o.d ${OBJECTDIR}/pod.o.d ${OBJECTDIR}/pod_manager.o.d ${OBJECTDIR}/pod_manager_async.o.d ${OBJECTDIR}/relay_pwm_manager.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/mcc_generated_files/pin_manager.o ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o ${OBJECTDIR}/mcc_generated_files/traps.o ${OBJECTDIR}/mcc_generated_files/where_was_i.o ${OBJECTDIR}/mcc_generated_files/mcc.o ${OBJECTDIR}/mcc_generated_files/system.o ${OBJECTDIR}/mcc_generated_files/clock.o ${OBJECTDIR}/main.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/i2c_async.o ${OBJECTDIR}/eeprom.o ${OBJECTDIR}/eeprom_async.o ${OBJECTDIR}/pod.o ${OBJECTDIR}/pod_manager.o ${OBJECTDIR}/pod_manager_async.o
+OBJECTFILES=${OBJECTDIR}/mcc_generated_files/pin_manager.o ${OBJECTDIR}/mcc_generated_files/interrupt_manager.o ${OBJECTDIR}/mcc_generated_files/traps.o ${OBJECTDIR}/mcc_generated_files/where_was_i.o ${OBJECTDIR}/mcc_generated_files/mcc.o ${OBJECTDIR}/mcc_generated_files/system.o ${OBJECTDIR}/mcc_generated_files/clock.o ${OBJECTDIR}/main.o ${OBJECTDIR}/i2c.o ${OBJECTDIR}/i2c_async.o ${OBJECTDIR}/eeprom.o ${OBJECTDIR}/eeprom_async.o ${OBJECTDIR}/pod.o ${OBJECTDIR}/pod_manager.o ${OBJECTDIR}/pod_manager_async.o ${OBJECTDIR}/relay_pwm_manager.o
 
 # Source Files
-SOURCEFILES=mcc_generated_files/pin_manager.c mcc_generated_files/interrupt_manager.c mcc_generated_files/traps.c mcc_generated_files/where_was_i.s mcc_generated_files/mcc.c mcc_generated_files/system.c mcc_generated_files/clock.c main.c i2c.c i2c_async.c eeprom.c eeprom_async.c pod.c pod_manager.c pod_manager_async.c
+SOURCEFILES=mcc_generated_files/pin_manager.c mcc_generated_files/interrupt_manager.c mcc_generated_files/traps.c mcc_generated_files/where_was_i.s mcc_generated_files/mcc.c mcc_generated_files/system.c mcc_generated_files/clock.c main.c i2c.c i2c_async.c eeprom.c eeprom_async.c pod.c pod_manager.c pod_manager_async.c relay_pwm_manager.c
 
 
 
@@ -173,6 +173,12 @@ ${OBJECTDIR}/pod_manager_async.o: pod_manager_async.c  .generated_files/flags/de
 	@${RM} ${OBJECTDIR}/pod_manager_async.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  pod_manager_async.c  -o ${OBJECTDIR}/pod_manager_async.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/pod_manager_async.o.d"      -g -D__DEBUG   -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
+${OBJECTDIR}/relay_pwm_manager.o: relay_pwm_manager.c  .generated_files/flags/default/25778189e8c5b68992b2f6d553524a15a1296523 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/relay_pwm_manager.o.d 
+	@${RM} ${OBJECTDIR}/relay_pwm_manager.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  relay_pwm_manager.c  -o ${OBJECTDIR}/relay_pwm_manager.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/relay_pwm_manager.o.d"      -g -D__DEBUG   -mno-eds-warn  -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
 else
 ${OBJECTDIR}/mcc_generated_files/pin_manager.o: mcc_generated_files/pin_manager.c  .generated_files/flags/default/9df3576703d4387abff774f4c33c9d1111167b .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}/mcc_generated_files" 
@@ -257,6 +263,12 @@ ${OBJECTDIR}/pod_manager_async.o: pod_manager_async.c  .generated_files/flags/de
 	@${RM} ${OBJECTDIR}/pod_manager_async.o.d 
 	@${RM} ${OBJECTDIR}/pod_manager_async.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  pod_manager_async.c  -o ${OBJECTDIR}/pod_manager_async.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/pod_manager_async.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/relay_pwm_manager.o: relay_pwm_manager.c  .generated_files/flags/default/42f04cface2f8b846b2608e281691b07d0f6f620 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/relay_pwm_manager.o.d 
+	@${RM} ${OBJECTDIR}/relay_pwm_manager.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  relay_pwm_manager.c  -o ${OBJECTDIR}/relay_pwm_manager.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/relay_pwm_manager.o.d"      -mno-eds-warn  -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 

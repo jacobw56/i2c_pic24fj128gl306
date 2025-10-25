@@ -43,3 +43,18 @@ static void pod_read_done(void *ctx, eeproma_result_t res)
         p->active = false;
     }
 }
+
+void pod_manager_fire(pod_manager_async_t *pm, uint8_t bay, uint16_t duration_ms, uint8_t intensity)
+{
+    if (bay >= POD_BAY_COUNT)
+    {
+        return;
+    }
+    poda_t *p = &pm->pods[bay];
+    if (!p->active)
+    {
+        return;
+    }
+    relay_pwm_fire(bay, p->frequency, duration_ms, intensity);
+}
+
