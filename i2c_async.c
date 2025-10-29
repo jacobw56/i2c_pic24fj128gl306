@@ -66,6 +66,7 @@ static void start_next_transaction(i2c_async_t *bus)
     *r->CONL |= (1u << 0); // SEN
 }
 static bool ACKBIT = false;
+static bool FROM_ADDR = false;
 // ---------- ISR ----------
 void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
 {
@@ -89,9 +90,11 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
         *r->TRN = (bus->current.address << 1) |
                   (bus->current.rx_len ? 1 : 0);
         bus->state = I2C_STATE_ADDR;
+        FROM_ADDR = false;
         break;
 
     case I2C_STATE_ADDR:
+        FROM_ADDR = true;
         if (*r->STAT & (1u << 15))
         {                          // ACKSTAT = 1 ? NACK
             *r->CONL |= (1u << 2); // Stop
@@ -122,13 +125,14 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
         break;
 
     case I2C_STATE_TX:
+        FROM_ADDR = false;
         if (*r->STAT & (1u << 15))
         { // NACK
             *r->CONL |= (1u << 2);
             bus->state = I2C_STATE_STOP;
             if (bus->current.cb)
             {
-                bus->current.cb(bus->current.context, I2C_EVENT_NACK);
+                // bus->current.cb(bus->current.context, I2C_EVENT_NACK);
             }
             break;
         }
@@ -150,6 +154,7 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
         break;
 
     case I2C_STATE_RESTART:
+        FROM_ADDR = false;
         if (*r->CONL & (1u << 1))
         {
             break;
@@ -159,6 +164,7 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
         break;
 
     case I2C_STATE_RX:
+        FROM_ADDR = false;
         if (!(*r->STAT & (1u << 1)))
         {
             break; // RBF not set
@@ -185,13 +191,14 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
             break; // PEN still set
         }
         bus->state = I2C_STATE_DONE;
-        if (ACKBIT == true) // We saw an ACK, complete the event, EEPROM OK
+        if ((FROM_ADDR == false) || (ACKBIT == true))
         {
             if (bus->current.cb)
             {
                 bus->current.cb(bus->current.context, I2C_EVENT_COMPLETE);
             }
         }
+        FROM_ADDR = false;
         start_next_transaction(bus);
         break;
 
