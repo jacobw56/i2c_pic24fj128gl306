@@ -65,7 +65,7 @@ static void start_next_transaction(i2c_async_t *bus)
     const i2c_regs_t *r = bus->regs;
     *r->CONL |= (1u << 0); // SEN
 }
-
+static bool ACKBIT = false;
 // ---------- ISR ----------
 void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
 {
@@ -95,6 +95,7 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
         if (*r->STAT & (1u << 15))
         {                          // ACKSTAT = 1 ? NACK
             *r->CONL |= (1u << 2); // Stop
+            ACKBIT = false;
             bus->state = I2C_STATE_STOP;
             if (bus->current.cb)
             {
@@ -102,6 +103,7 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
             }
             break;
         }
+        ACKBIT = true;
         if (bus->current.tx_len)
         {
             *r->TRN = bus->current.tx_buf[bus->tx_index++];
@@ -183,7 +185,7 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
             break; // PEN still set
         }
         bus->state = I2C_STATE_DONE;
-        if (!(*r->STAT & (1u << 15)))
+        if (ACKBIT == true) // We saw an ACK, complete the event, EEPROM OK
         {
             if (bus->current.cb)
             {
