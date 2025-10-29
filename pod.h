@@ -23,7 +23,6 @@
  *  0x00?0x0F : 128-bit Unique ID (16 bytes)
  *  0x10?0x11 : Scent ID (uint16)
  *  0x12?0x13 : Remaining volume (uint16, 0xffff = full)
- *  0x14?0x15 : Frequency (uint16, Hz)
  */
 typedef struct
 {
@@ -32,7 +31,6 @@ typedef struct
     uint8_t uid[16];    // unique identifier
     uint16_t scent;     // scent ID
     uint16_t remaining; // remaining volume
-    uint16_t frequency; // piezo frequency (Hz)
     eeprom_t eeprom;    // EEPROM device (address + bus)
 } pod_t;
 

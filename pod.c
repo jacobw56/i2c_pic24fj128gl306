@@ -62,7 +62,6 @@ bool pod_load_metadata(pod_t *p)
     memcpy(p->uid, &buf[0], 16);
     p->scent = u16_from_buf(&buf[16]);
     p->remaining = u16_from_buf(&buf[18]);
-    p->frequency = u16_from_buf(&buf[20]);
     p->init = true;
 
     return true;

@@ -6,9 +6,9 @@
  * @date 2025-10-22
  *
  * @copyright Copyright (c) 2025
- * 
+ *
  * Note that the i2c addess and relay pin mapping goes:
- * 
+ *
  * Pod:         1R      2R      3R      1L      2L      3L
  * ---------------------------------------------------------
  * Pod number:  0       1       2       3       4       5
@@ -38,7 +38,6 @@ typedef struct
     uint8_t uid[16];
     uint16_t scent;
     uint16_t remaining;
-    uint16_t frequency;
     eeproma_t eeprom;
     uint8_t buf[POD_EEPROM_BLOCK_SIZE];
 } poda_t;

@@ -156,7 +156,7 @@ static void pwm_stop(void)
 // ------------------------------------------------------------
 // Fire a pod?s PWM + relay with pulsing
 // ------------------------------------------------------------
-void relay_pwm_fire(uint8_t pod_index, uint16_t freq_hz, uint16_t duration_ms, uint8_t intensity)
+void relay_pwm_fire(uint8_t pod_index, uint16_t duration_ms, uint8_t intensity)
 {
     if (pod_index >= 6)
     {
@@ -166,7 +166,7 @@ void relay_pwm_fire(uint8_t pod_index, uint16_t freq_hz, uint16_t duration_ms, u
     all_relays_off();
     relay_on(pod_index);
 
-    pwm_start(pod_index, freq_hz);
+    pwm_start(pod_index, intensity);
 
     active_pod = pod_index;
     pulse_intensity = intensity;
@@ -214,7 +214,7 @@ void __attribute__((interrupt, no_auto_psv)) _T4Interrupt(void)
     {
         if (pulse_timer_ms >= off_ms)
         {
-            pwm_start(active_pod, 170000); // re-enable PWM at nominal freq
+            pwm_start(active_pod, 50); // re-enable PWM at nominal freq
             pulse_on = true;
             pulse_timer_ms = 0;
         }

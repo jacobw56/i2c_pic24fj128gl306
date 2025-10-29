@@ -43,7 +43,6 @@ static void pod_read_done(void *ctx, eeproma_result_t res)
         memcpy(p->uid, &p->buf[0], 16);
         p->scent = u16_from_buf(&p->buf[16]);
         p->remaining = u16_from_buf(&p->buf[18]);
-        p->frequency = u16_from_buf(&p->buf[20]);
         p->active = true;
     }
     else
@@ -63,6 +62,5 @@ void pod_manager_fire(pod_manager_async_t *pm, uint8_t bay, uint16_t duration_ms
     {
         return;
     }
-    relay_pwm_fire(bay, p->frequency, duration_ms, intensity);
+    relay_pwm_fire(bay, duration_ms, intensity);
 }
-

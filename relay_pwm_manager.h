@@ -18,7 +18,7 @@
 #include <libpic30.h>
 
 void relay_pwm_init(void);
-void relay_pwm_fire(uint8_t pod_index, uint16_t freq_hz, uint16_t duration_ms, uint8_t intensity);
+void relay_pwm_fire(uint8_t pod_index, uint16_t duration_ms, uint8_t intensity);
 void relay_pwm_stop(void);
 
 #endif
