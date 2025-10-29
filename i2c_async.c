@@ -187,6 +187,9 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
         {
             bus->current.cb(bus->current.context, I2C_EVENT_COMPLETE);
         }
+        break;
+
+    case I2C_STATE_DONE:
         start_next_transaction(bus);
         break;
 
