@@ -2,6 +2,14 @@
 
 #define FCY 16000000UL
 
+#define FREQ_DEFAULT 93
+
+#define UART1RXPIN 26 // RG7 (RP26)
+#define UART1TXPIN 21 // RG6 (RP21)
+
+#define MCCP2A_FUNC_CODE (16)
+#define MCCP3A_FUNC_CODE (18)
+
 typedef struct
 {
     volatile uint16_t *tris;
@@ -60,6 +68,13 @@ void relay_pwm_init(void)
         relay_off(i);
     }
 
+    __builtin_write_OSCCONL(OSCCON & 0xBF);
+    RPINR18bits.U1RXR = UART1RXPIN;    // U1RX <- RP26 (RG7)
+    RPOR10bits.RP21R = 3;              // RP21 -> U1TX (RG6)
+    RPOR3bits.RP6R = MCCP2A_FUNC_CODE; // RP6 <- MCCP2 Output A  (check func code!)
+    RPOR5bits.RP11R = MCCP3A_FUNC_CODE;
+    __builtin_write_OSCCONL(OSCCON | 0x40);
+
     // --- Timer2 for PWM timebase ---
     T2CON = 0;
     TMR2 = 0;
@@ -68,24 +83,37 @@ void relay_pwm_init(void)
     T2CONbits.TON = 0;
 
     // --- CCP1 (Right) ---
-    CCP1CON1L = 0; // Disable
-    CCP1CON2H = 0;
-    CCP1CON1L = 0x0005;        // Dual edge compare mode
-    CCP1CON1L |= (0b000 << 4); // Select Timer2 (TMRPS=0)
-    CCP1PRL = 0xFFFF;
-    CCP1RA = 0;
-    CCP1RB = 0;
-    CCP1CON1Lbits.CCPON = 0; // Stay off for now
+    ANSELBbits.ANSB6 = 0; // digital
+    TRISBbits.TRISB6 = 0; // output (so the PWM can drive the pin)
+
+    CCP2CON1Lbits.CCPON = 0;      // disable MCCP2 to start
+    CCP2CON1Lbits.CCSEL = 0;      // internal time base
+    CCP2CON1Lbits.MOD = 0b0101;   // dual-edge buffered PWM
+    CCP2CON1Lbits.CLKSEL = 0b000; // Tcy (Fosc/2)
+    CCP2CON1Lbits.TMRPS = 0b00;   // 1:1 prescale
+
+    CCP2PRL = FREQ_DEFAULT; // period
+    CCP2RA = 0;             // edge A
+    CCP2RB = 0;             // Set edge B for compare output
+
+    CCP2CON3Hbits.OUTM = 0b000; // single-ended on OCxA
+    CCP2CON2Hbits.OCAEN = 1;    // enable A output
 
     // --- CCP2 (Left) ---
-    CCP2CON1L = 0;
-    CCP2CON2H = 0;
-    CCP2CON1L = 0x0005;
-    CCP2CON1L |= (0b000 << 4);
-    CCP2PRL = 0xFFFF;
-    CCP2RA = 0;
-    CCP2RB = 0;
-    CCP2CON1Lbits.CCPON = 0;
+    TRISDbits.TRISD0 = 0; // output (so the PWM can drive the pin)
+
+    CCP3CON1Lbits.CCPON = 0;      // disable MCCP3 to start
+    CCP3CON1Lbits.CCSEL = 0;      // internal time base
+    CCP3CON1Lbits.MOD = 0b0101;   // dual-edge buffered PWM
+    CCP3CON1Lbits.CLKSEL = 0b000; // Tcy (Fosc/2)
+    CCP3CON1Lbits.TMRPS = 0b00;   // 1:1 prescale
+
+    CCP3PRL = FREQ_DEFAULT; // period (match your R side)
+    CCP3RA = 0;             // edge A
+    CCP3RB = 0;             // Set edge B for output
+
+    CCP3CON3Hbits.OUTM = 0b000; // single-ended on OCxA
+    CCP3CON2Hbits.OCAEN = 1;    // enable A output
 
     // --- Timer4 for 1ms tick ---
     T4CON = 0;
@@ -100,33 +128,28 @@ void relay_pwm_init(void)
 // ------------------------------------------------------------
 // PWM start/stop
 // ------------------------------------------------------------
-static void pwm_start(uint8_t pod, uint16_t freq)
+static void pwm_start(uint8_t pod, uint16_t intensity)
 {
-    uint16_t pr2 = (uint16_t)((FCY / (2UL * freq)) - 1);
-    PR2 = pr2;
+    uint16_t duty_16 = (uint16_t)((FREQ_DEFAULT * intensity) / 144u);
 
     if (pod < 3)
     {
-        CCP1PRL = pr2;
-        CCP1RA = pr2 / 4;       // rising edge
-        CCP1RB = (3 * pr2) / 4; // falling edge (50% duty)
-        CCP1CON1Lbits.CCPON = 1;
+        CCP2RB = duty_16;        // falling edge (50% duty)
+        CCP2CON1Lbits.CCPON = 1; // enable MCCP2
     }
     else
     {
-        CCP2PRL = pr2;
-        CCP2RA = pr2 / 4;
-        CCP2RB = (3 * pr2) / 4;
-        CCP2CON1Lbits.CCPON = 1;
+        CCP3RB = duty_16;
+        CCP3CON1Lbits.CCPON = 1; // enable MCCP3
     }
 
-    T2CONbits.TON = 1;
+    T2CONbits.TON = 1; // enable Timer2 for PWM timebase
 }
 
 static void pwm_stop(void)
 {
-    CCP1CON1Lbits.CCPON = 0;
     CCP2CON1Lbits.CCPON = 0;
+    CCP3CON1Lbits.CCPON = 0;
     T2CONbits.TON = 0;
 }
 
