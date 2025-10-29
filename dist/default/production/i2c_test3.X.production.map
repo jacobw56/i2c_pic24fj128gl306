@@ -113,25 +113,24 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100               0x62e           0x945  (2373)
 .const                       0x72e                0x44            0x66  (102)
-.text                        0x772               0xcec          0x1362  (4962)
-.dinit                      0x145e                0x42            0x63  (99)
-.text                       0x14a0                0x5a            0x87  (135)
-.init.delay32               0x14fa                0x1c            0x2a  (42)
-.text                       0x1516                0x22            0x33  (51)
+.text                        0x772               0xd28          0x13bc  (5052)
+.dinit                      0x149a                0x3c            0x5a  (90)
+.text                       0x14d6                0x1c            0x2a  (42)
+.init.delay32               0x14f2                0x1c            0x2a  (42)
+.text                       0x150e                0x22            0x33  (51)
 
-                 Total "program" memory used (bytes):         0x1e54  (7764) 5%
+                 Total "program" memory used (bytes):         0x1e48  (7752) 5%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.nbss                        0x800                   0             0x6  (6)
-mcc_generated_files/where_was_i.s.scn1     0x806                   0             0x4  (4)
-.ndata                       0x80a                   0             0x2  (2)
-.nbss                        0x80c                   0             0x6  (6)
-.ndata                       0x812                   0             0x2  (2)
-.bss                         0x814                   0           0x250  (592)
+.nbss                        0x800                   0           0x258  (600)
+mcc_generated_files/where_was_i.s.scn1     0xa58                   0             0x4  (4)
+.ndata                       0xa5c                   0             0x2  (2)
+.nbss                        0xa5e                   0             0x4  (4)
+.ndata                       0xa62                   0             0x2  (2)
 
                  Total "data" memory used (bytes):          0x264  (612) 7%
 
@@ -145,16 +144,14 @@ stack                        0xa64                              0x1d9c  (7580)
 
                  Maximum dynamic memory (bytes):         0x1d9c  (7580)
 
-Info: Project is using a large data memory model when small data memory model is sufficient.
-
 
 External Symbols in Data Memory (by address):
 
-                    0x0806                  _trapSrcAddr
+                    0x0a58                  _trapSrcAddr
 
 External Symbols in Data Memory (by name):
 
-                    0x0806                  _trapSrcAddr
+                    0x0a58                  _trapSrcAddr
 
 External Symbols in Program Memory (by address):
 
@@ -203,26 +200,26 @@ External Symbols in Program Memory (by address):
                   0x001358                  _eeproma_init
                   0x00137a                  _PIN_MANAGER_Initialize
                   0x001408                  _system_init
-                  0x001434                  _main
-                  0x0014a0                  _CLOCK_Initialize
-                  0x0014fa                  ___delay32
-                  0x001516                  _where_was_i
-                  0x001526                  _SYSTEM_Initialize
-                  0x001532                  _INTERRUPT_Initialize
+                  0x001436                  _main
+                  0x00145c                  _CLOCK_Initialize
+                  0x0014f2                  ___delay32
+                  0x00150e                  _where_was_i
+                  0x00151e                  _SYSTEM_Initialize
+                  0x00152a                  _INTERRUPT_Initialize
                   0x015f00                  __FSEC.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x0014a0                  _CLOCK_Initialize
-                  0x001532                  _INTERRUPT_Initialize
+                  0x00145c                  _CLOCK_Initialize
+                  0x00152a                  _INTERRUPT_Initialize
                   0x00137a                  _PIN_MANAGER_Initialize
-                  0x001526                  _SYSTEM_Initialize
+                  0x00151e                  _SYSTEM_Initialize
                   0x000626                  __DefaultInterrupt
                   0x015f00                  __FSEC.sec
                   0x0002ee                  __MI2C1Interrupt
                   0x0002ce                  __T3Interrupt
                   0x000594                  __T4Interrupt
-                  0x0014fa                  ___delay32
+                  0x0014f2                  ___delay32
                   0x000722                  ___mulp32eds3
                   0x000722                  ___mulp32peds3
                   0x000722                  ___mulsi3
@@ -248,7 +245,7 @@ External Symbols in Program Memory (by name):
                   0x000bd2                  _i2c_start
                   0x000c32                  _i2c_stop
                   0x000c62                  _i2c_write_byte
-                  0x001434                  _main
+                  0x001436                  _main
                   0x00064c                  _memcpy
                   0x00065a                  _memset
                   0x0011e2                  _pod_deinit
@@ -262,7 +259,7 @@ External Symbols in Program Memory (by name):
                   0x000dbe                  _relay_pwm_init
                   0x000ef6                  _relay_pwm_stop
                   0x001408                  _system_init
-                  0x001516                  _where_was_i
+                  0x00150e                  _where_was_i
                   0x00130e                  build/default/production/eeprom_async.o:_eeproma_read_cb
                   0x001110                  build/default/production/pod_manager_async.o:_pod_read_done
 
@@ -477,7 +474,7 @@ __FDEVOPT1
  .debug_abbrev    0x000d2d         0x14 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
  .debug_abbrev    0x000d41         0x14 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
 
-.debug_line       0x000000        0xfcd
+.debug_line       0x000000        0xfcf
  *(.debug_line)
  .debug_line      0x000000        0x13e build/default/production/mcc_generated_files/pin_manager.o
  .debug_line      0x00013e         0x55 build/default/production/mcc_generated_files/interrupt_manager.o
@@ -493,10 +490,10 @@ __FDEVOPT1
  .debug_line      0x000ac2         0xc4 build/default/production/eeprom_async.o
  .debug_line      0x000b86         0xb5 build/default/production/pod.o
  .debug_line      0x000c3b         0xac build/default/production/pod_manager.o
- .debug_line      0x000ce7         0xe9 build/default/production/pod_manager_async.o
- .debug_line      0x000dd0        0x17e build/default/production/relay_pwm_manager.o
- .debug_line      0x000f4e         0x45 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
- .debug_line      0x000f93         0x3a /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
+ .debug_line      0x000ce7         0xeb build/default/production/pod_manager_async.o
+ .debug_line      0x000dd2        0x17e build/default/production/relay_pwm_manager.o
+ .debug_line      0x000f50         0x45 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_line      0x000f95         0x3a /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
 
 .debug_frame      0x000000        0x84e
  *(.debug_frame)
@@ -2436,30 +2433,27 @@ __c30_signature
  __c30_signature
                   0x000a7c          0x6 /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(mulsi3.DA_o)
 
-.nbss               0x0800          0x6
- .nbss              0x0800          0x6 build/default/production/relay_pwm_manager.o
+.nbss               0x0800        0x258
+ .nbss              0x0800        0x226 build/default/production/main.o
+ .nbss              0x0a26         0x20 build/default/production/mcc_generated_files/traps.o
+ .nbss              0x0a46          0xc build/default/production/eeprom_async.o
+ .nbss              0x0a52          0x6 build/default/production/relay_pwm_manager.o
 
 mcc_generated_files/where_was_i.s.scn1
-                    0x0806          0x4
+                    0x0a58          0x4
  mcc_generated_files/where_was_i.s.scn1
-                    0x0806          0x4 build/default/production/mcc_generated_files/where_was_i.o
-                    0x0806                  _trapSrcAddr
+                    0x0a58          0x4 build/default/production/mcc_generated_files/where_was_i.o
+                    0x0a58                  _trapSrcAddr
 
-.ndata              0x080a          0x2
- .ndata             0x080a          0x2 build/default/production/mcc_generated_files/traps.o
+.ndata              0x0a5c          0x2
+ .ndata             0x0a5c          0x2 build/default/production/mcc_generated_files/traps.o
 
-.nbss               0x080c          0x6
- .nbss              0x080c          0x2 build/default/production/i2c_async.o
- .nbss              0x080e          0x2 build/default/production/eeprom_async.o
- .nbss              0x0810          0x2 build/default/production/pod_manager.o
+.nbss               0x0a5e          0x4
+ .nbss              0x0a5e          0x2 build/default/production/i2c_async.o
+ .nbss              0x0a60          0x2 build/default/production/pod_manager.o
 
-.ndata              0x0812          0x2
- .ndata             0x0812          0x2 build/default/production/relay_pwm_manager.o
-
-.bss                0x0814        0x250
- .bss               0x0814        0x226 build/default/production/main.o
- .bss               0x0a3a         0x20 build/default/production/mcc_generated_files/traps.o
- .bss               0x0a5a          0xa build/default/production/eeprom_async.o
+.ndata              0x0a62          0x2
+ .ndata             0x0a62          0x2 build/default/production/relay_pwm_manager.o
 
 .ivt._OscillatorFail
                   0x000004          0x2
@@ -2561,7 +2555,7 @@ mcc_generated_files/where_was_i.s.scn1
  .const             0x8766          0x6 build/default/production/pod_manager.o
  .const             0x876c          0x6 build/default/production/pod_manager_async.o
 
-.text             0x000772        0xcec
+.text             0x000772        0xd28
  .text            0x000772        0x340 build/default/production/eeprom.o
                   0x0007be                  _eeprom_init
                   0x0007e0                  _eeprom_deinit
@@ -2600,27 +2594,27 @@ mcc_generated_files/where_was_i.s.scn1
                   0x001358                  _eeproma_init
  .text            0x00137a         0x8e build/default/production/mcc_generated_files/pin_manager.o
                   0x00137a                  _PIN_MANAGER_Initialize
- .text            0x001408         0x56 build/default/production/main.o
+ .text            0x001408         0x54 build/default/production/main.o
                   0x001408                  _system_init
-                  0x001434                  _main
+                  0x001436                  _main
+ .text            0x00145c         0x3e build/default/production/mcc_generated_files/clock.o
+                  0x00145c                  _CLOCK_Initialize
 
-.dinit            0x00145e         0x42
- .dinit           0x00145e         0x42 data_init
+.dinit            0x00149a         0x3c
+ .dinit           0x00149a         0x3c data_init
 
-.text             0x0014a0         0x5a
- .text            0x0014a0         0x3e build/default/production/mcc_generated_files/clock.o
-                  0x0014a0                  _CLOCK_Initialize
- .text            0x0014de         0x1c build/default/production/mcc_generated_files/traps.o
-                  0x0014de                  _TRAPS_halt_on_error
+.text             0x0014d6         0x1c
+ .text            0x0014d6         0x1c build/default/production/mcc_generated_files/traps.o
+                  0x0014d6                  _TRAPS_halt_on_error
 
-.init.delay32     0x0014fa         0x1c
- .init.delay32    0x0014fa         0x1c /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(delay32da.Meo)
-                  0x0014fa                  ___delay32
+.init.delay32     0x0014f2         0x1c
+ .init.delay32    0x0014f2         0x1c /opt/microchip/xc16/v2.10/bin/bin/../../lib/libc99-pic30-elf.a(delay32da.Meo)
+                  0x0014f2                  ___delay32
 
-.text             0x001516         0x22
- .text            0x001516         0x10 build/default/production/mcc_generated_files/where_was_i.o
-                  0x001516                  _where_was_i
- .text            0x001526          0xc build/default/production/mcc_generated_files/system.o
-                  0x001526                  _SYSTEM_Initialize
- .text            0x001532          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
-                  0x001532                  _INTERRUPT_Initialize
+.text             0x00150e         0x22
+ .text            0x00150e         0x10 build/default/production/mcc_generated_files/where_was_i.o
+                  0x00150e                  _where_was_i
+ .text            0x00151e          0xc build/default/production/mcc_generated_files/system.o
+                  0x00151e                  _SYSTEM_Initialize
+ .text            0x00152a          0x6 build/default/production/mcc_generated_files/interrupt_manager.o
+                  0x00152a                  _INTERRUPT_Initialize

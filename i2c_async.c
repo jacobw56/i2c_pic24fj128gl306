@@ -95,7 +95,7 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
         if (*r->STAT & (1u << 15))
         {                          // ACKSTAT = 1 ? NACK
             *r->CONL |= (1u << 2); // Stop
-            bus->state = I2C_STATE_STOP;
+            bus->state = I2C_STATE_DONE;
             if (bus->current.cb)
             {
                 bus->current.cb(bus->current.context, I2C_EVENT_NACK);
