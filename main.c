@@ -22,7 +22,7 @@ void system_init(void)
 {
     static const i2c_regs_t i2c1_regs = {
         &I2C1CONL, &I2C1STAT, &I2C1BRG, &I2C1TRN, &I2C1RCV};
-    i2c_async_init(&i2c1_async, &i2c1_regs, 0x12);
+    i2c_async_init(&i2c1_async, &i2c1_regs, 0x4E);
     pod_manager_async_init(&podman, &i2c1_async);
     relay_pwm_init();
     T3CON = 0;
