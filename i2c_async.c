@@ -95,7 +95,7 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
         if (*r->STAT & (1u << 15))
         {                          // ACKSTAT = 1 ? NACK
             *r->CONL |= (1u << 2); // Stop
-            bus->state = I2C_STATE_DONE;
+            bus->state = I2C_STATE_STOP;
             if (bus->current.cb)
             {
                 bus->current.cb(bus->current.context, I2C_EVENT_NACK);
@@ -183,14 +183,17 @@ void __attribute__((interrupt, no_auto_psv)) _MI2C1Interrupt(void)
             break; // PEN still set
         }
         bus->state = I2C_STATE_DONE;
-        if (bus->current.cb)
+        if (!(*r->STAT & (1u << 15)))
         {
-            bus->current.cb(bus->current.context, I2C_EVENT_COMPLETE);
+            if (bus->current.cb)
+            {
+                bus->current.cb(bus->current.context, I2C_EVENT_COMPLETE);
+            }
         }
+        start_next_transaction(bus);
         break;
 
     case I2C_STATE_DONE:
-        start_next_transaction(bus);
         break;
 
     default:
